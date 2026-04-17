@@ -1,0 +1,52 @@
+[package]
+name = "clipocr"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Read an image from the system clipboard, OCR it, print the text, and copy it back."
+license = "MIT"
+repository = "https://github.com/rory/clipocr"
+readme = "README.md"
+keywords = ["ocr", "clipboard", "cli", "vision", "tesseract"]
+categories = ["command-line-utilities"]
+
+[package.metadata.platforms]
+macos_min_version = "10.15"
+
+[[bin]]
+name = "clipocr"
+path = "src/main.rs"
+
+[lib]
+name = "clipocr"
+path = "src/lib.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"
+thiserror = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+owo-colors = "4"
+supports-color = "3"
+arboard = { version = "3", default-features = false }
+image = { version = "=0.25.5", default-features = false, features = ["png", "tiff", "bmp", "jpeg"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-foundation = { version = "0.3", features = ["NSData", "NSString", "NSArray", "NSDictionary", "NSError", "NSURL"] }
+objc2-app-kit = { version = "0.3", features = ["NSPasteboard"] }
+objc2-vision = { version = "0.3", features = ["VNRequest", "VNRequestHandler", "VNRecognizeTextRequest", "VNObservation"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+tesseract = "0.15"
+
+[dev-dependencies]
+assert_cmd = "2"
+insta = { version = "1", features = ["yaml"] }
+predicates = "3"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
