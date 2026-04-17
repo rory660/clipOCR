@@ -1,4 +1,4 @@
-# clipocr Implementation Plan
+# clipOCR Implementation Plan
 
 A cross-platform (macOS + Linux) CLI written in **Rust** that reads an image
 from the system clipboard, runs local OCR, prints the recognized text, and

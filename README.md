@@ -1,4 +1,4 @@
-# clipocr
+# clipOCR
 
 OCR the image on your clipboard. Print the text. Copy it back.
 
